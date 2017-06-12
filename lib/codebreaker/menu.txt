@@ -1,0 +1,8 @@
+*************************************
+Enter:
+- S to START
+- T to show SCORES TABLE
+- R to show RULES
+- H during the game to show HINT
+- Q to QUIT
+*************************************
