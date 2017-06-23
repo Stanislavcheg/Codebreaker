@@ -2,37 +2,27 @@ module Codebreaker
   # Checks guess for matches
   module Matcher
     def check_matches(guess)
-      result = ''
       matches = count_number_matches(guess)
       exact_matches = count_exact_matches(guess)
-      exact_matches.times do
-        result += '+'
-      end
-      (matches - exact_matches).times do
-        result += '-'
-      end
-      result
+      '+' * exact_matches + '-' * (matches - exact_matches)
     end
 
-    private def count_number_matches(guess)
+    private
+
+    def count_number_matches(guess)
       count = 0
-      guess_copy = String.new(guess)
+      guess_copy = guess.clone
       @secret_code.chars.each do |number|
-        if guess_copy.include?(number)
-          index = guess_copy.index(number)
-          guess_copy[index] = ''
-          count += 1
-        end
+        next unless guess_copy.include?(number)
+        index = guess_copy.index(number)
+        guess_copy[index] = ''
+        count += 1
       end
       count
     end
 
-    private def count_exact_matches(guess)
-      count = 0
-      @secret_code.chars.size.times do |index|
-        count += 1 if @secret_code[index] == guess[index]
-      end
-      count
+    def count_exact_matches(guess)
+      @secret_code.chars.zip(guess.chars).select { |elem| elem[0] == elem[1] }.count
     end
   end
 end

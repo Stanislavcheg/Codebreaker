@@ -34,13 +34,8 @@ module Codebreaker
       result
     end
 
-    private def generate_score_string(player_name)
+    def generate_score_string(player_name)
       "#{player_name} won the game for #{current_turn} turns. The code was #{@secret_code}"
-    end
-
-    def save_score(player_name, file_name = File.dirname(__FILE__) + '/scores.txt')
-      score_string = generate_score_string(player_name)
-      open(file_name, 'a') { |file| file.puts score_string }
     end
   end
 end

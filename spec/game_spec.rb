@@ -1,15 +1,17 @@
 require 'spec_helper'
 require './lib/codebreaker/game'
+require 'data'
 # Game class tests
 module Codebreaker
   RSpec.describe Game do
-    let(:game) { Game.new }
+    subject(:game) { Game.new }
     let(:player_name) { 'Test Player' }
+    let(:data) { Data.algorithm_data }
     before do
       game.start
     end
 
-    context '#start' do
+    describe '#start' do
       it 'saves secret code' do
         expect(game.instance_variable_get(:@secret_code)).not_to be_empty
       end
@@ -21,7 +23,7 @@ module Codebreaker
       end
     end
 
-    context '#evaluate_guess' do
+    describe '#evaluate_guess' do
       before do
         game.instance_variable_set(:@secret_code, '1234')
       end
@@ -106,13 +108,22 @@ module Codebreaker
         end
       end
 
+      it do
+        data.each do |elem|
+          guess, code, result = elem
+          game.instance_variable_set(:@secret_code, code)
+          game.instance_variable_set(:@current_turn, 1)
+          expect(game.evaluate_guess(guess)).to eq(result)
+        end
+      end
+
       it 'increases number of turns when take a guess' do
         guess = '5622'
         expect { game.evaluate_guess(guess) }.to change { game.instance_variable_get(:@current_turn) }.by(1)
       end
     end
 
-    context '#show_hint' do
+    describe '#show_hint' do
       it { expect(game.instance_variable_get(:@hint)).not_to be_nil }
       it 'should be a digit of the secret code' do
         code_digits = game.instance_variable_get(:@secret_code).chars
@@ -127,19 +138,9 @@ module Codebreaker
         game.instance_variable_set(:@secret_code, '1234')
       end
 
-      context '#generate_score_string' do
+      describe '#generate_score_string' do
         it 'generates appropriate string' do
           expect(game.send(:generate_score_string, player_name)).to eq test_score_string
-        end
-      end
-
-      context '#save_score' do
-        let(:file_name) { File.dirname(__FILE__) + '/scores.txt' }
-
-        it 'saves score to the end of the file' do
-          game.save_score(player_name)
-          saved_string = File.read(file_name).split("\n").last
-          expect(saved_string).to eq test_score_string
         end
       end
     end
