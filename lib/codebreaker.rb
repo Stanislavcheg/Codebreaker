@@ -1,3 +1,3 @@
-require './codebreaker/version'
-require './codebreaker/game'
-require './codebreaker/ui'
+require_relative './codebreaker/version'
+require_relative './codebreaker/game'
+require_relative './codebreaker/ui'
