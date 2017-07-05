@@ -1,6 +1,6 @@
-require_relative 'version'
-require_relative 'game'
-require_relative 'ui'
+require './version'
+require './game'
+require './ui'
 # Codebreaker game executible file
 module Codebreaker
   loop do

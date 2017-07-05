@@ -29,14 +29,14 @@ module Codebreaker
       end
 
       context 'when exact match' do
-        it do
+        it 'returns 4 "+"' do
           guess = '1234'
           expect(game.evaluate_guess(guess)).to eq("++++")
         end
       end
 
       context 'when no match' do
-        it do
+        it 'returns empty line' do
           guess = '5656'
           expect(game.evaluate_guess(guess)).to eq("")
         end
@@ -44,31 +44,31 @@ module Codebreaker
 
       context 'when partial match' do
         context 'when correct digits are at the correct places' do
-          it do
+          it 'returns one "+"' do
             guess = '5255'
             expect(game.evaluate_guess(guess)).to eq("+")
           end
 
-          it do
+          it 'returns two "++"' do
             guess = '6224'
             expect(game.evaluate_guess(guess)).to eq("++")
           end
         end
 
         context 'when correct digits are at the wrong places' do
-          it do
+          it 'returns one "-"' do
             guess = '5525'
             expect(game.evaluate_guess(guess)).to eq("-")
           end
 
-          it do
+          it 'returns two "--"' do
             guess = '4525'
             expect(game.evaluate_guess(guess)).to eq("--")
           end
         end
 
         context 'mixed' do
-          it do
+          it 'returns one "+" and one "-"' do
             guess = '1525'
             expect(game.evaluate_guess(guess)).to eq("+-")
           end
@@ -79,15 +79,15 @@ module Codebreaker
         before do
           game.instance_variable_set(:@secret_code, '1224')
         end
-        it do
+        it 'returns one "+"' do
           guess = '5525'
           expect(game.evaluate_guess(guess)).to eq("+")
         end
-        it do
+        it 'returns one "-"' do
           guess = '5632'
           expect(game.evaluate_guess(guess)).to eq("-")
         end
-        it do
+        it 'returns one "+" and one "-"' do
           guess = '2525'
           expect(game.evaluate_guess(guess)).to eq("+-")
         end
@@ -98,17 +98,17 @@ module Codebreaker
           game.instance_variable_set(:@secret_code, '1234')
         end
 
-        it do
+        it 'returns one "+"' do
           guess = '5225'
           expect(game.evaluate_guess(guess)).to eq("+")
         end
-        it do
+        it 'returns one "-"' do
           guess = '5622'
           expect(game.evaluate_guess(guess)).to eq("-")
         end
       end
 
-      it do
+      it 'checks result for the match for different combinations of code/guess data' do
         data.each do |elem|
           guess, code, result = elem
           game.instance_variable_set(:@secret_code, code)
